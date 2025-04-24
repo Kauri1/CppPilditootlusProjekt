@@ -19,6 +19,7 @@ int main(int argc, char *argv[]) {
     }
 
     //../Screenshot 2025-04-23 155822.png
+    //../noit.png
     Mat image = imread(text.toStdString());
     if(image.empty()) {
         printf("Image not loaded!\n");
