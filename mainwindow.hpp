@@ -20,6 +20,11 @@ protected:
 private:
     QListWidget *listWidget;
     void showImage(const QString &filePath);
+
+
+private slots:
+    // teeb pildi pathi "clickitavaks" et uuesti avada
+    void onItemDoubleClicked(QListWidgetItem *item);
 };
 
 #endif // MAINWINDOW_HPP
