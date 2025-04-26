@@ -23,12 +23,25 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 // Kasutajaliidese loomine
-void MainWindow::setupUI() {
+void MainWindow::setupUI() { //loob selle liidese UI
     // Loo main widget ja paigutus
     auto *centralWidget = new QWidget(this);
     auto *mainLayout = new QHBoxLayout(centralWidget);
 
-    // Loo pildiliste failide nimekiri (ikoonivaates)
+
+    // Loo pildiliste failide nimekiri (ikoon ja nimi selle kõrval)
+    listWidget = new QListWidget(this);
+    listWidget->setViewMode(QListView::ListMode);  // <-- siit oluline muudatus
+    listWidget->setIconSize(QSize(64, 64));        // või 128x128 kui suured ikoonid
+    listWidget->setResizeMode(QListView::Adjust);
+    listWidget->setMovement(QListView::Static);
+    listWidget->setSpacing(5);                     // veidi ruumi nime ja ikooni vahele
+    listWidget->setMinimumWidth(200);
+    listWidget->setMaximumWidth(300);
+
+
+    /*
+    // Loo pildiliste failide nimekiri (ikoon ja nimi selle all)
     listWidget = new QListWidget(this);
     listWidget->setViewMode(QListView::IconMode);
     listWidget->setIconSize(QSize(128, 128));
@@ -36,6 +49,7 @@ void MainWindow::setupUI() {
     listWidget->setMovement(QListView::Static);
     listWidget->setMinimumWidth(200);
     listWidget->setMaximumWidth(300);
+    */
 
     // Loo juhtnuppude paneel
     controlsWidget = new QWidget(this);
@@ -48,10 +62,10 @@ void MainWindow::setupUI() {
     saturationSlider = new QSlider(Qt::Horizontal);
 
     // Configureeri sliderid
-    blurSlider->setRange(0, 20);  // For kernel suuruses 1-21
+    blurSlider->setRange(0, 20);  // kernel suuruses 1-21
     brightnessSlider->setRange(-254, 254);
-    contrastSlider->setRange(0, 200);  // 0-2.0 kontrast
-    saturationSlider->setRange(0, 200);  // 0-2.0 saturation
+    contrastSlider->setRange(0, 200);  // 0-2 kordne kontrast
+    saturationSlider->setRange(0, 200);  // 0-2 kordne saturation
 
     // Vaikeväärtused
     blurSlider->setValue(0);
