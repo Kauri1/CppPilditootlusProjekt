@@ -1,7 +1,3 @@
-//
-// Created by kauri on 26/04/2025.
-//
-
 #include "ImageProcessor.hpp"
 
 
@@ -37,7 +33,7 @@ cv::Mat Saturate(const cv::Mat &img, float amount) {
 
 
 
-int main() {
+/*int main() {
     const cv::Mat img = cv::imread("../noit.png");
     const cv::Mat blurred = gBlur(img, 15);
     const cv::Mat brightened = Brighten(img, 100);
@@ -50,6 +46,6 @@ int main() {
     cv::imshow("Saturated", saturated);
     cv::waitKey(0);
 
-}
+}*/
 
 
