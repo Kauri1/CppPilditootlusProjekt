@@ -12,9 +12,9 @@ find_package( OpenCV REQUIRED )
 
 include_directories( ${OpenCV_INCLUDE_DIRS} )
 
-add_executable(PilditootlusProjekt main.cpp)
-
-
+add_executable(PilditootlusProjekt main.cpp mainwindow.cpp mainwindow.hpp
+        ImageProcessor.cpp
+        ImageProcessor.hpp)
 target_link_libraries( PilditootlusProjekt ${OpenCV_LIBS} )
 
 
@@ -61,3 +61,6 @@ if (WIN32 AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
                 "$<TARGET_FILE_DIR:${PROJECT_NAME}>")
     endforeach(QT_LIB)
 endif()
+
+add_executable(processorTest ImageProcessor.cpp ImageProcessor.hpp)
+target_link_libraries( processorTest ${OpenCV_LIBS} )

@@ -10,8 +10,6 @@
 #include <QFileInfo>
 
 
-using namespace cv;
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
@@ -31,7 +29,7 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 
-MainWindow::~MainWindow() {}
+MainWindow::~MainWindow() = default;
 
 void MainWindow::dragEnterEvent(QDragEnterEvent *event) {
     if (event->mimeData()->hasUrls()) {
@@ -68,14 +66,14 @@ void MainWindow::dropEvent(QDropEvent *event) {
 }
 
 void MainWindow::showImage(const QString &filePath) {
-    Mat image = imread(filePath.toStdString());
+    cv::Mat image = cv::imread(filePath.toStdString());
     if (image.empty()) {
         QMessageBox::warning(this, "Load Error", "See pole pilt");
         return;
     }
-    namedWindow("Image Preview", WINDOW_AUTOSIZE);
-    imshow("Image Preview", image);
-    waitKey(1); // waitKey(0) peataks GUI, seega kasuta väiksemat väärtust
+    cv::namedWindow("Image Preview", cv::WINDOW_AUTOSIZE);
+    cv::imshow("Image Preview", image);
+    cv::waitKey(1); // waitKey(0) peataks GUI, seega kasuta väiksemat väärtust
 }
 
 // teeb pildi pathi "clickitavaks" et uuesti avada
