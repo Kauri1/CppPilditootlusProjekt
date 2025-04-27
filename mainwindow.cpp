@@ -1,12 +1,13 @@
 #include "mainwindow.hpp"
 #include "ImageProcessor.hpp"
-#include <QMimeData>
+
+#include <QMimeData>           // Drag & drop
 #include <QUrl>
-#include <QVBoxLayout>
-#include <QHBoxLayout>
+#include <QVBoxLayout>         // Vertikaalne paigutus
+#include <QHBoxLayout>         // Horisontaalne paigutus
 #include <QMessageBox>
 #include <QImage>
-#include <QPixmap>
+#include <QPixmap>             // Pildi kuvamine
 #include <QFileInfo>
 #include <QLabel>
 #include <QPushButton>
@@ -18,12 +19,13 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     setAcceptDrops(true); // Lubab aknasse faile lohistada
-    resize(600, 400); // Dropboxi mõõdud
-    setupUI(); // Kasutajaliidese seadistamine
+    resize(600, 400);     // Dropboxi mõõdud
+    setupUI();            // Ehita kasutajaliides
 }
 
 // Kasutajaliidese loomine
 void MainWindow::setupUI() { //loob selle liidese UI
+
     // Loo main widget ja paigutus
     auto *centralWidget = new QWidget(this);
     auto *mainLayout = new QHBoxLayout(centralWidget);
@@ -31,11 +33,11 @@ void MainWindow::setupUI() { //loob selle liidese UI
 
     // Loo pildiliste failide nimekiri (ikoon ja nimi selle kõrval)
     listWidget = new QListWidget(this);
-    listWidget->setViewMode(QListView::ListMode);  // <-- siit oluline muudatus
+    listWidget->setViewMode(QListView::ListMode);
     listWidget->setIconSize(QSize(64, 64));        // või 128x128 kui suured ikoonid
     listWidget->setResizeMode(QListView::Adjust);
     listWidget->setMovement(QListView::Static);
-    listWidget->setSpacing(5);                     // veidi ruumi nime ja ikooni vahele
+    listWidget->setSpacing(5);                     // veidi ruumi ikoonide vahele
     listWidget->setMinimumWidth(200);
     listWidget->setMaximumWidth(300);
 
@@ -51,31 +53,33 @@ void MainWindow::setupUI() { //loob selle liidese UI
     listWidget->setMaximumWidth(300);
     */
 
-    // Loo juhtnuppude paneel
+    // Loo trackbaride paneel
     controlsWidget = new QWidget(this);
     auto *controlsLayout = new QVBoxLayout(controlsWidget);
 
-    // Loo sliderid
+
+    // Loo trackbarid
     blurSlider = new QSlider(Qt::Horizontal);
     brightnessSlider = new QSlider(Qt::Horizontal);
     contrastSlider = new QSlider(Qt::Horizontal);
     saturationSlider = new QSlider(Qt::Horizontal);
 
-    // Configureeri sliderid
+
+    // Configureeri trackbarid (väärtusvahemikud)
     blurSlider->setRange(0, 20);  // kernel suuruses 1-21
     brightnessSlider->setRange(-254, 254);
     contrastSlider->setRange(0, 200);  // 0-2 kordne kontrast
     saturationSlider->setRange(0, 200);  // 0-2 kordne saturation
 
+
     // Vaikeväärtused
     blurSlider->setValue(0);
     brightnessSlider->setValue(0);
-    contrastSlider->setValue(100);  // 1.0 on normaalne kontrast
-    saturationSlider->setValue(100);  // 1.0 on normaalne saturatsioon
+    contrastSlider->setValue(100);  // 100 on normaalne kontrast
+    saturationSlider->setValue(100);  // 100 on normaalne saturation
 
 
-
-    // Loo labelid
+    // Loo nimed trackbaride jaoks
     brightnessLabel = new QLabel("Brightness:", this);
     contrastLabel = new QLabel("Contrast:", this);
     saturationLabel = new QLabel("Saturation:", this);
@@ -103,7 +107,7 @@ void MainWindow::setupUI() { //loob selle liidese UI
 
     setCentralWidget(centralWidget);
 
-    // Ühenda signaalid
+    // Ühenda trackbarid ja nupp vastavate funktsioonidega.
     connect(blurSlider, &QSlider::valueChanged, this, &MainWindow::onBlurValueChanged);
     connect(brightnessSlider, &QSlider::valueChanged, this, &MainWindow::onBrightnessValueChanged);
     connect(contrastSlider, &QSlider::valueChanged, this, &MainWindow::onContrastValueChanged);
@@ -124,7 +128,7 @@ void MainWindow::dragEnterEvent(QDragEnterEvent *event) {
     }
 }
 
-// Failide maha kukutamine aknasse
+// Failide "kukutamine" aknasse
 void MainWindow::dropEvent(QDropEvent *event) {
     const QList<QUrl> urls = event->mimeData()->urls();
     for (const QUrl &url : urls) {
@@ -213,8 +217,8 @@ void MainWindow::onSaturationValueChanged(int) {
 void MainWindow::resetAdjustments() {
     blurSlider->setValue(0);
     brightnessSlider->setValue(0);
-    contrastSlider->setValue(100);  // Reset 1.0
-    saturationSlider->setValue(100);  // Reset 1.0
+    contrastSlider->setValue(100);  // Reseti 100-le
+    saturationSlider->setValue(100);  // Reseti 100-le
 
     if (!originalImage.empty()) {
         processedImage = originalImage.clone();

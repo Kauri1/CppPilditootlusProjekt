@@ -60,8 +60,7 @@ private:
 
 
 private slots:
-    // teeb pildi pathi "clickitavaks" et uuesti avada
-    void onItemDoubleClicked(QListWidgetItem *item);
+    void onItemDoubleClicked(QListWidgetItem *item);     // teeb pildi pathi "clickitavaks" et uuesti avada
 };
 
 
