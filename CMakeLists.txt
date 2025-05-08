@@ -6,7 +6,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-set(OpenCV_DIR "C:/opencv/build")
+set(OpenCV_DIR "${CMAKE_CURRENT_SOURCE_DIR}/opencv/build")
 
 find_package( OpenCV REQUIRED )
 
@@ -19,7 +19,7 @@ target_link_libraries( PilditootlusProjekt ${OpenCV_LIBS} )
 
 
 
-set(CMAKE_PREFIX_PATH "C:/Qt/6.9.0/msvc2022_64")
+set(CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}/QT/6.9.0/msvc2022_64")
 
 find_package(Qt6 COMPONENTS
         Core
