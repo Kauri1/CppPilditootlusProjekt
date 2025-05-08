@@ -62,5 +62,12 @@ if (WIN32 AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
     endforeach(QT_LIB)
 endif()
 
+if (WIN32)
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "${OpenCV_DIR}/x64/vc16/bin/opencv_world4110${DEBUG_SUFFIX}.dll"
+            "$<TARGET_FILE_DIR:${PROJECT_NAME}>")
+endif()
+
 add_executable(processorTest ImageProcessor.cpp ImageProcessor.hpp)
 target_link_libraries( processorTest ${OpenCV_LIBS} )
