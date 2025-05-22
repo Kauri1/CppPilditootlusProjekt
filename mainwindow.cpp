@@ -63,6 +63,7 @@ void MainWindow::setupUI() { //loob selle liidese UI
     brightnessSlider = new QSlider(Qt::Horizontal);
     contrastSlider = new QSlider(Qt::Horizontal);
     saturationSlider = new QSlider(Qt::Horizontal);
+    edgeDetectionSlider = new QSlider(Qt::Horizontal);
 
 
     // Configureeri trackbarid (väärtusvahemikud)
@@ -70,6 +71,7 @@ void MainWindow::setupUI() { //loob selle liidese UI
     brightnessSlider->setRange(-254, 254);
     contrastSlider->setRange(0, 200);  // 0-2 kordne kontrast
     saturationSlider->setRange(0, 200);  // 0-2 kordne saturation
+    edgeDetectionSlider->setRange(0, 4);
 
 
     // Vaikeväärtused
@@ -77,6 +79,7 @@ void MainWindow::setupUI() { //loob selle liidese UI
     brightnessSlider->setValue(0);
     contrastSlider->setValue(100);  // 100 on normaalne kontrast
     saturationSlider->setValue(100);  // 100 on normaalne saturation
+    edgeDetectionSlider->setValue(0);
 
 
     // Loo nimed trackbaride jaoks
@@ -84,6 +87,7 @@ void MainWindow::setupUI() { //loob selle liidese UI
     contrastLabel = new QLabel("Contrast:", this);
     saturationLabel = new QLabel("Saturation:", this);
     blurLabel = new QLabel("Blur:", this);
+    edgeLabel = new QLabel("Edge Detection:", this);
 
     // Loo reset button
     resetButton = new QPushButton("Reset All", this);
@@ -97,6 +101,8 @@ void MainWindow::setupUI() { //loob selle liidese UI
     controlsLayout->addWidget(saturationSlider);
     controlsLayout->addWidget(blurLabel);
     controlsLayout->addWidget(blurSlider);
+    controlsLayout->addWidget(edgeLabel);
+    controlsLayout->addWidget(edgeDetectionSlider);
     controlsLayout->addWidget(resetButton);
 
     controlsLayout->addStretch(); // Venitab tühja ruumi alla
@@ -112,6 +118,7 @@ void MainWindow::setupUI() { //loob selle liidese UI
     connect(brightnessSlider, &QSlider::valueChanged, this, &MainWindow::onBrightnessValueChanged);
     connect(contrastSlider, &QSlider::valueChanged, this, &MainWindow::onContrastValueChanged);
     connect(saturationSlider, &QSlider::valueChanged, this, &MainWindow::onSaturationValueChanged);
+    connect(edgeDetectionSlider, &QSlider::valueChanged, this, &MainWindow::onEdgeDetectionValueChanged);
     connect(resetButton, &QPushButton::clicked, this, &MainWindow::resetAdjustments);
     connect(listWidget, &QListWidget::itemDoubleClicked, this, &MainWindow::onItemDoubleClicked);
 }
@@ -193,6 +200,10 @@ void MainWindow::updateImage() {
         result = Saturate(result, saturationSlider->value() / 100.0f);
     }
 
+    if (edgeDetectionSlider->value() != 0) {
+        result = EdgeDetect(result, edgeDetectionSlider->value());
+    }
+
     cv::imshow("Image Preview", result);
     cv::waitKey(1);
 }
@@ -214,11 +225,16 @@ void MainWindow::onSaturationValueChanged(int) {
     updateImage();
 }
 
+void MainWindow::onEdgeDetectionValueChanged(int) {
+    updateImage();
+}
+
 void MainWindow::resetAdjustments() {
     blurSlider->setValue(0);
     brightnessSlider->setValue(0);
     contrastSlider->setValue(100);  // Reseti 100-le
     saturationSlider->setValue(100);  // Reseti 100-le
+    edgeDetectionSlider->setValue(0);
 
     if (!originalImage.empty()) {
         processedImage = originalImage.clone();

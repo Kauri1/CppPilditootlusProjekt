@@ -43,12 +43,15 @@ private:
 
     void onSaturationValueChanged(int);
 
+    void onEdgeDetectionValueChanged(int);
+
     void resetAdjustments();
 
     QSlider *blurSlider;
     QSlider *brightnessSlider;
     QSlider *contrastSlider;
     QSlider *saturationSlider;
+    QSlider *edgeDetectionSlider;
     QPushButton *resetButton;
     QWidget *controlsWidget;
 
@@ -56,6 +59,7 @@ private:
     QLabel *brightnessLabel;
     QLabel *contrastLabel;
     QLabel *saturationLabel;
+    QLabel *edgeLabel;
 
 
 
