@@ -11,6 +11,7 @@
 #include <QFileInfo>
 #include <QLabel>
 #include <QPushButton>
+#include <QLineEdit>
 
 
 
@@ -92,6 +93,10 @@ void MainWindow::setupUI() { //loob selle liidese UI
     // Loo reset button
     resetButton = new QPushButton("Reset All", this);
 
+    savePath = new QLineEdit(this);
+
+    saveButton = new QPushButton("Save", this);
+
     // Lisa widgetid controls layoutile
     controlsLayout->addWidget(brightnessLabel);
     controlsLayout->addWidget(brightnessSlider);
@@ -104,6 +109,8 @@ void MainWindow::setupUI() { //loob selle liidese UI
     controlsLayout->addWidget(edgeLabel);
     controlsLayout->addWidget(edgeDetectionSlider);
     controlsLayout->addWidget(resetButton);
+    controlsLayout->addWidget(savePath);
+    controlsLayout->addWidget(saveButton);
 
     controlsLayout->addStretch(); // Venitab tühja ruumi alla
 
@@ -121,6 +128,8 @@ void MainWindow::setupUI() { //loob selle liidese UI
     connect(edgeDetectionSlider, &QSlider::valueChanged, this, &MainWindow::onEdgeDetectionValueChanged);
     connect(resetButton, &QPushButton::clicked, this, &MainWindow::resetAdjustments);
     connect(listWidget, &QListWidget::itemDoubleClicked, this, &MainWindow::onItemDoubleClicked);
+    connect(saveButton, &QPushButton::clicked, this, &MainWindow::saveImage);
+    connect(savePath, &QLineEdit::returnPressed, this, &MainWindow::saveImage);
 }
 
 
@@ -205,6 +214,7 @@ void MainWindow::updateImage() {
     }
 
     cv::imshow("Image Preview", result);
+    processedImage = result;
     cv::waitKey(1);
 }
 
@@ -241,6 +251,16 @@ void MainWindow::resetAdjustments() {
         updateImage();
     }
 }
+
+void MainWindow::saveImage() {
+    if (currentImagePath.isEmpty()) {
+        QMessageBox::warning(this, "Save Error", "No image to save");
+        return;
+    }
+    cv::imwrite(savePath->text().toStdString(), processedImage);
+    QMessageBox::information(this, "Save Success", "Image saved successfully");
+}
+
 
 
 

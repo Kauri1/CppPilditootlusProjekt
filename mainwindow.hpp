@@ -47,6 +47,8 @@ private:
 
     void resetAdjustments();
 
+    void saveImage();
+
     QSlider *blurSlider;
     QSlider *brightnessSlider;
     QSlider *contrastSlider;
@@ -54,6 +56,8 @@ private:
     QSlider *edgeDetectionSlider;
     QPushButton *resetButton;
     QWidget *controlsWidget;
+    QLineEdit *savePath;
+    QPushButton *saveButton;
 
     QLabel *blurLabel;
     QLabel *brightnessLabel;
