@@ -1,0 +1,48 @@
+Pilditöötluse programm
+
+Andero Kolk, Kauri Remm
+
+
+** Lühikokkuvõte projektist
+* Sissejuhatus
+Projekti eesmärk oli luua lihtne pilditöötlusprogramm, millega saaks muuta pildi tähtsamaid omadusi ja muudetud piltid salvestada.
+Programmi pidi olema võimalikult lihtne kasutada.
+Seetõttu otsustati omaduste muutmiseks kasutada slaidereid, ning teha pildi valimine kasutades dropboxi, ehk ala kuhu saab lohistada pildifaili mida soovitakse töödelda.
+
+* Programmi funktsionaalsus
+Pildid mida on juba korra dropboxi lohistatud, salvestatakse menüüsse, seniks kuni programm töötab.
+Menüüst saab pildi uuesti avada (topeltclickiga) ilma, et seda peaks uuesti dropboxi lohistama.
+
+Programmi akna ääres on programmi töökäiku mõjutadad nupud ja pildi omadusi kontrollivad slaiderid.
+Nupp "Save" - salvestab töödeldud pildi.
+Nupp "Open automatically" - määrab kas dropboxi lohistatud pilt avaneb ise või lisatakse see ainult menüüsse.
+Nupp "Reset all" - seab kõik slaiderite väärtused tagasi algväärtusteks ehk taastab originaalse pildi.
+Slaider "Brightness" - muudab pildi heledust
+Slaider "Contrast" - muudab pildi pikslite rgb väärtusi kas suuremaks või väiksemaks vastavalt kas need on keskmisest suuremad või väiksemad.
+Slaider "Saturation" - muudab pilti tuhmimaks või värvilisemaks. Piksli rgb väärtused muudetakse hsv-ks ja s ongi saturationi väärtus.
+Slaider "Blur" - hägustab pilti Gaussian meetodil, slaide kontrollib kerneli suurust.
+Slaider "Edge detection" - liidab keskmisele pikslile, ümberolevate pikslite negatiivse väärtuse, korda sõltub kernelist, mida kontrollib slaider.
+Slaider "White point" - 
+
+* Kokkuvõte
+Pildi esialgseks valimiseks tuleb kasutada dropboxi. Edaspidi saab seda avada ka menüüst, kuhu on varasemalt avatud pildid salvestatud.
+Pildi omadusi saab muuta, muutes vastavaid slaidereid.
+Töödeldud pilti saab võrrelda originaalsega ja ka salvestada, vajutades vastavatele nuppudele.
+
+
+** Koodi käivitamine:
+Programm käivitub ainult Windowsiga.
+* CLion
+CLionile tuleb lisada Visual Studio MSVC compiler
+CLion -> Settings -> Toolchains
+Peaks leiduma + märk, kus tuleb lisada Visual Studio ja siis tõsta see listis kõige ülemiseks.
+
+* QT
+Kui QT ei tööta mingil põhjusel, siis lae QT installeri kaudu projekti QT kausta.
+Kindlasti peab installeris (customize -> Qt -> Qt 6.9.0) olema valitud "MSVC 2022 64-bit", MinGW ei ole vajalik.
+
+
+** Koodi käivitamise tulemus
+Kui kood käivitub korrektselt, siis avaneb uus aken.
+Akna ääres paiknevad nupud ja slaiderid.
+Akna keskel paikneb dropbox, kuhu saab lohistada enda valitud pildi, mida soovitakse töödelda.
