@@ -34,10 +34,6 @@ void MainWindow::setupUI() { //loob selle liidese UI
     auto *mainLayout = new QHBoxLayout(centralWidget);
 
 
-    // CHECKBOX
-    openInNewWindowCheckBox = new QCheckBox("Open in New Window", this);
-    controlsLayout->addWidget(openInNewWindowCheckBox);
-
 
     //TRACKBARID
 
@@ -94,6 +90,11 @@ void MainWindow::setupUI() { //loob selle liidese UI
     savePath->setFixedWidth(fixedWidth);
 
 
+    // CHECKBOX
+    openInNewWindowCheckBox = new QCheckBox("Open in New Window", this);
+    controlsLayout->addWidget(openInNewWindowCheckBox);
+
+
     // PILTIDE LIST
 
     // Loo list piltidest, mis on dropboxi lohistatud (salvestab ikooni ja nime selle kõrvale)
@@ -133,16 +134,16 @@ void MainWindow::setupUI() { //loob selle liidese UI
     //controlsLayout->addStretch(); // Tekitab tühja ruumi listi alla
 
 
-    // Add QLabel for displaying the image
+    // PILT SEADETE AKNAS
     imageLabel = new QLabel(this);
-    imageLabel->setFixedSize(600, 600); // Set a fixed size for the image display
-    imageLabel->setAlignment(Qt::AlignCenter); // Center the image in the label
-    imageLabel->setStyleSheet("border: 1px solid black;"); // Optional: Add a border for
+    imageLabel->setFixedSize(935, 615); // Pildi kuvamise ala suurus (fixed size)
+    imageLabel->setAlignment(Qt::AlignCenter); // Pilt paigutatakse keksele
+    //imageLabel->setStyleSheet("border: 1px solid black;"); // Border
 
 
     // Lisa widgetid main layoutile
-    mainLayout->addWidget(controlsWidget);  //trackbarid ja list
-    mainLayout->addWidget(imageLabel);      // näita pilti
+    mainLayout->addWidget(controlsWidget);  // trackbarid ja list
+    mainLayout->addWidget(imageLabel);      // pildi nimi
     setCentralWidget(centralWidget);
 
     // Ühenda trackbarid ja nupp vastavate funktsioonidega.
@@ -155,6 +156,8 @@ void MainWindow::setupUI() { //loob selle liidese UI
     connect(listWidget, &QListWidget::itemDoubleClicked, this, &MainWindow::onItemDoubleClicked);
     connect(saveButton, &QPushButton::clicked, this, &MainWindow::saveImage);
     connect(savePath, &QLineEdit::returnPressed, this, &MainWindow::saveImage);
+
+    //qDebug() << "Setup UI completed"; //debug
 }
 
 
