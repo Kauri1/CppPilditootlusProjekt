@@ -33,32 +33,12 @@ void MainWindow::setupUI() { //loob selle liidese UI
     auto *mainLayout = new QHBoxLayout(centralWidget);
 
 
-    // Loo list piltidest, mis on dropboxi lohistatud (salvestab ikooni ja nime selle kõrvale)
-    listWidget = new QListWidget(this);
-    listWidget->setViewMode(QListView::ListMode);
-    listWidget->setIconSize(QSize(64, 64));        // või 128x128 kui suured ikoonid
-    listWidget->setResizeMode(QListView::Adjust);
-    listWidget->setMovement(QListView::Static);
-    listWidget->setSpacing(5);                     // veidi ruumi ikoonide vahele
-    listWidget->setMinimumWidth(150);               // dropboxi min laius
-    listWidget->setMaximumWidth(300);
 
-
-    /*
-    // Loo pildiliste failide nimekiri (ikoon ja nimi selle all)
-    listWidget = new QListWidget(this);
-    listWidget->setViewMode(QListView::IconMode);
-    listWidget->setIconSize(QSize(128, 128));
-    listWidget->setResizeMode(QListView::Adjust);
-    listWidget->setMovement(QListView::Static);
-    listWidget->setMinimumWidth(200);
-    listWidget->setMaximumWidth(300);
-    */
+    //TRACKBARID
 
     // Loo trackbaride aken
     controlsWidget = new QWidget(this);
     auto *controlsLayout = new QVBoxLayout(controlsWidget);
-
 
     // Loo trackbarid
     blurSlider = new QSlider(Qt::Horizontal);
@@ -67,14 +47,20 @@ void MainWindow::setupUI() { //loob selle liidese UI
     saturationSlider = new QSlider(Qt::Horizontal);
     edgeDetectionSlider = new QSlider(Qt::Horizontal);
 
-
-    // Trackbaride (väärtusvahemikud)
+    // Trackbaride väärtusvahemikud
     blurSlider->setRange(0, 20);         // kernel suuruses 1-21
     brightnessSlider->setRange(-254, 254);
     contrastSlider->setRange(0, 200);    // 0-2 kordne kontrast
     saturationSlider->setRange(0, 200);  // 0-2 kordne saturation
     edgeDetectionSlider->setRange(0, 4); // kerneli suurus 0-4
 
+    // Trackbaride mõõdud ja omadused
+    int fixedWidth = 300; // trackbarid on sama laiad kui piltide list
+    blurSlider->setFixedWidth(fixedWidth);
+    brightnessSlider->setFixedWidth(fixedWidth);
+    contrastSlider->setFixedWidth(fixedWidth);
+    saturationSlider->setFixedWidth(fixedWidth);
+    edgeDetectionSlider->setFixedWidth(fixedWidth);
 
     // Vaikeväärtused
     blurSlider->setValue(0);
@@ -83,7 +69,6 @@ void MainWindow::setupUI() { //loob selle liidese UI
     saturationSlider->setValue(100);  // 100 on normaalne saturation
     edgeDetectionSlider->setValue(0);
 
-
     // Loo nimed trackbaride jaoks
     brightnessLabel = new QLabel("Brightness:", this);
     contrastLabel = new QLabel("Contrast:", this);
@@ -91,11 +76,32 @@ void MainWindow::setupUI() { //loob selle liidese UI
     blurLabel = new QLabel("Blur:", this);
     edgeLabel = new QLabel("Edge Detection:", this);
 
-    // Loo ja nimeta nupud
-    resetButton = new QPushButton("Reset All", this);
 
+    // NUPUD
+
+    resetButton = new QPushButton("Reset All", this);
     savePath = new QLineEdit(this);
     saveButton = new QPushButton("Save", this);
+
+    // Nuppude laiused
+    resetButton->setFixedWidth(fixedWidth);
+    saveButton->setFixedWidth(fixedWidth);
+    savePath->setFixedWidth(fixedWidth);
+
+
+    // PILTIDE LIST
+
+    // Loo list piltidest, mis on dropboxi lohistatud (salvestab ikooni ja nime selle kõrvale)
+    listWidget = new QListWidget(this);
+    listWidget->setViewMode(QListView::ListMode);
+    listWidget->setIconSize(QSize(64, 64));        // või 128x128 kui suured ikoonid
+    listWidget->setResizeMode(QListView::Adjust);
+    listWidget->setMovement(QListView::Static);
+    listWidget->setSpacing(5);                     // veidi ruumi ikoonide vahele
+    listWidget->setFixedWidth(fixedWidth);               // dropboxi fixed laius (fixedWidth on trackbaride juures)
+//    listWidget->setMaximumWidth(300);
+//    listWidget->setMinimumWidth(150);
+
 
     // Lisa widgetid controls layoutile
     controlsLayout->addWidget(brightnessLabel);
@@ -112,10 +118,13 @@ void MainWindow::setupUI() { //loob selle liidese UI
     controlsLayout->addWidget(savePath);
     controlsLayout->addWidget(saveButton);
 
+
+    // Paiguta piltide list trackbaride alla
+    controlsLayout->addWidget(listWidget);
     controlsLayout->addStretch(); // Venitab tühja ruumi alla
 
+
     // Lisa widgetid main layoutile
-    mainLayout->addWidget(listWidget);
     mainLayout->addWidget(controlsWidget);
 
     setCentralWidget(centralWidget);
