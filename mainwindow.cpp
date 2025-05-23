@@ -156,14 +156,14 @@ void MainWindow::setupUI() { //loob selle liidese UI
     connect(listWidget, &QListWidget::itemDoubleClicked, this, &MainWindow::onItemDoubleClicked);
     connect(saveButton, &QPushButton::clicked, this, &MainWindow::saveImage);
     connect(savePath, &QLineEdit::returnPressed, this, &MainWindow::saveImage);
+    connect(openInNewWindowCheckBox, &QCheckBox::toggled, this, &MainWindow::onCheckboxToggled);
 
     //qDebug() << "Setup UI completed"; //debug
 }
 
 
-
-
 MainWindow::~MainWindow() = default;
+
 
 // Lohistamise sisse lubamine
 void MainWindow::dragEnterEvent(QDragEnterEvent *event) {
@@ -212,6 +212,7 @@ void MainWindow::showImage(const QString &filePath) {
     processedImage = originalImage.clone();
     updateImage();
 
+    /*
     // Kui "uuel aknal" checkbox vajutatud
     if (openInNewWindowCheckBox->isChecked()) {
         cv::imshow("Image Preview", processedImage);
@@ -219,6 +220,7 @@ void MainWindow::showImage(const QString &filePath) {
     } else {
         updateImage();
     }
+    */
 }
 
 // Uuendab pildi eelvaadet
@@ -227,7 +229,7 @@ void MainWindow::updateImage() {
 
     cv::Mat result = originalImage.clone();
 
-    // Rakenda efektid
+    // Lisa efektid
     if (blurSlider->value() > 0) {
         int kernelSize = 1 + (2 * blurSlider->value());  // Kernel peab olema paaritu arv
         result = gBlur(result, kernelSize);
@@ -249,13 +251,20 @@ void MainWindow::updateImage() {
         result = EdgeDetect(result, edgeDetectionSlider->value());
     }
 
-    // Convert the processed image to QPixmap and display it
+
+    // Muuda QPixmap pildiks ja kuva
     QImage qimg(result.data, result.cols, result.rows, result.step, QImage::Format_BGR888);
     QPixmap pixmap = QPixmap::fromImage(qimg.scaled(imageLabel->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
     imageLabel->setPixmap(pixmap);
 
 
-    cv::imshow("Image Preview", result);
+    // Kontrolli kas checkbox on vajutatud
+    if (openInNewWindowCheckBox->isChecked()) {
+        cv::imshow("Image Preview", result);
+        isPreviewWindowOpen = true;
+        cv::waitKey(1);
+    }
+
     processedImage = result;
     cv::waitKey(1);
 }
@@ -315,5 +324,22 @@ void MainWindow::onItemDoubleClicked(QListWidgetItem *item) {
     }
     else {
         QMessageBox::information(this, "Info", "See element ei ole pildifail.");
+    }
+}
+
+void MainWindow::onCheckboxToggled(bool checked) {
+    if (checked) {
+        // Kui checkbox vajutatud, teeb pildi jaoks teise akna
+        if (!processedImage.empty()) {
+            cv::imshow("Image Preview", processedImage);
+            isPreviewWindowOpen = true;
+            cv::waitKey(1);
+        }
+    } else {
+        // Kui pole vajutatud hävitab akna
+        if (isPreviewWindowOpen) {
+            cv::destroyWindow("Image Preview");
+            isPreviewWindowOpen = false;
+        }
     }
 }

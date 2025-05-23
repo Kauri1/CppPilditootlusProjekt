@@ -28,6 +28,7 @@ private:
     cv::Mat originalImage;
     cv::Mat processedImage;
 
+    void onCheckboxToggled(bool checked);
 
     void showImage(const QString &filePath);
 
@@ -46,6 +47,8 @@ private:
     void resetAdjustments();
 
     void saveImage();
+
+    bool isPreviewWindowOpen = false; //hoiab endas akna olekut (on olemas/ei ole)
 
     QSlider *blurSlider;
     QSlider *brightnessSlider;
