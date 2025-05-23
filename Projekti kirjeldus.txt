@@ -11,6 +11,7 @@ Seetõttu otsustati omaduste muutmiseks kasutada slaidereid, ning teha pildi val
 
 * Programmi funktsionaalsus
 Pildid mida on juba korra dropboxi lohistatud, salvestatakse menüüsse, seniks kuni programm töötab.
+Dropbox katab tegelikult kogu akna ala, ehk tohib pildi ükskõik kuhu akna alale lohistada.
 Menüüst saab pildi uuesti avada (topeltclickiga) ilma, et seda peaks uuesti dropboxi lohistama.
 
 Programmi akna ääres on programmi töökäiku mõjutadad nupud ja pildi omadusi kontrollivad slaiderid.
@@ -25,7 +26,7 @@ Slaider "Edge detection" - liidab keskmisele pikslile, ümberolevate pikslite ne
 Slaider "White point" - 
 
 * Kokkuvõte
-Pildi esialgseks valimiseks tuleb kasutada dropboxi. Edaspidi saab seda avada ka menüüst, kuhu on varasemalt avatud pildid salvestatud.
+Pildi esialgseks valimiseks tuleb see lohistada programmi akna alale. Edaspidi saab seda avada ka menüüst, kuhu on varasemalt avatud pildid salvestatud.
 Pildi omadusi saab muuta, muutes vastavaid slaidereid.
 Töödeldud pilti saab võrrelda originaalsega ja ka salvestada, vajutades vastavatele nuppudele.
 
@@ -45,4 +46,4 @@ Kindlasti peab installeris (customize -> Qt -> Qt 6.9.0) olema valitud "MSVC 202
 ** Koodi käivitamise tulemus
 Kui kood käivitub korrektselt, siis avaneb uus aken.
 Akna ääres paiknevad nupud ja slaiderid.
-Akna keskel paikneb dropbox, kuhu saab lohistada enda valitud pildi, mida soovitakse töödelda.
+Dropbox on tegelikult kogu akna ulatuses, ükskõik kuhu saab lohistada enda valitud pildi, mida soovitakse töödelda.

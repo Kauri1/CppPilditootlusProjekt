@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     setAcceptDrops(true);    // Lubab aknasse faile lohistada
-    resize(600, 400);     // Dropboxi mõõdud
+    resize(300, 800);     // Dropboxi vaikeväärtuse mõõdud
     setupUI();                  // Ehita kasutajaliides
     showMaximized();            // Avab controlsLayout akna maximized olekus
 }
@@ -98,9 +98,9 @@ void MainWindow::setupUI() { //loob selle liidese UI
     listWidget->setResizeMode(QListView::Adjust);
     listWidget->setMovement(QListView::Static);
     listWidget->setSpacing(5);                     // veidi ruumi ikoonide vahele
-    listWidget->setFixedWidth(fixedWidth);               // dropboxi fixed laius (fixedWidth on trackbaride juures)
-//    listWidget->setMaximumWidth(300);
-//    listWidget->setMinimumWidth(150);
+    listWidget->setFixedWidth(fixedWidth);               // listi fixed laius (fixedWidth on trackbaride juures)
+    listWidget->setMinimumHeight(100);              // listi pikkus (akna suurusega muudetav)
+
 
 
     // Lisa widgetid controls layoutile
@@ -114,14 +114,18 @@ void MainWindow::setupUI() { //loob selle liidese UI
     controlsLayout->addWidget(blurSlider);
     controlsLayout->addWidget(edgeLabel);
     controlsLayout->addWidget(edgeDetectionSlider);
+    controlsLayout->addSpacing(5); //väike vahe slaiderite ja nuppude vahel
+
     controlsLayout->addWidget(resetButton);
+    controlsLayout->addSpacing(5);
     controlsLayout->addWidget(savePath);
     controlsLayout->addWidget(saveButton);
+    controlsLayout->addSpacing(5); //vahe nuppude ja listi vahel
 
 
     // Paiguta piltide list trackbaride alla
     controlsLayout->addWidget(listWidget);
-    controlsLayout->addStretch(); // Venitab tühja ruumi alla
+    //controlsLayout->addStretch(); // Tekitab tühja ruumi listi alla
 
 
     // Lisa widgetid main layoutile
