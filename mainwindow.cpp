@@ -19,9 +19,10 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
-    setAcceptDrops(true); // Lubab aknasse faile lohistada
+    setAcceptDrops(true);    // Lubab aknasse faile lohistada
     resize(600, 400);     // Dropboxi mõõdud
-    setupUI();            // Ehita kasutajaliides
+    setupUI();                  // Ehita kasutajaliides
+    showMaximized();            // Avab controlsLayout akna maximized olekus
 }
 
 // Kasutajaliidese loomine
@@ -32,14 +33,14 @@ void MainWindow::setupUI() { //loob selle liidese UI
     auto *mainLayout = new QHBoxLayout(centralWidget);
 
 
-    // Loo pildiliste failide nimekiri (ikoon ja nimi selle kõrval)
+    // Loo list piltidest, mis on dropboxi lohistatud (salvestab ikooni ja nime selle kõrvale)
     listWidget = new QListWidget(this);
     listWidget->setViewMode(QListView::ListMode);
     listWidget->setIconSize(QSize(64, 64));        // või 128x128 kui suured ikoonid
     listWidget->setResizeMode(QListView::Adjust);
     listWidget->setMovement(QListView::Static);
     listWidget->setSpacing(5);                     // veidi ruumi ikoonide vahele
-    listWidget->setMinimumWidth(200);
+    listWidget->setMinimumWidth(150);               // dropboxi min laius
     listWidget->setMaximumWidth(300);
 
 
@@ -54,7 +55,7 @@ void MainWindow::setupUI() { //loob selle liidese UI
     listWidget->setMaximumWidth(300);
     */
 
-    // Loo trackbaride paneel
+    // Loo trackbaride aken
     controlsWidget = new QWidget(this);
     auto *controlsLayout = new QVBoxLayout(controlsWidget);
 
@@ -67,18 +68,18 @@ void MainWindow::setupUI() { //loob selle liidese UI
     edgeDetectionSlider = new QSlider(Qt::Horizontal);
 
 
-    // Configureeri trackbarid (väärtusvahemikud)
-    blurSlider->setRange(0, 20);  // kernel suuruses 1-21
+    // Trackbaride (väärtusvahemikud)
+    blurSlider->setRange(0, 20);         // kernel suuruses 1-21
     brightnessSlider->setRange(-254, 254);
-    contrastSlider->setRange(0, 200);  // 0-2 kordne kontrast
+    contrastSlider->setRange(0, 200);    // 0-2 kordne kontrast
     saturationSlider->setRange(0, 200);  // 0-2 kordne saturation
-    edgeDetectionSlider->setRange(0, 4);
+    edgeDetectionSlider->setRange(0, 4); // kerneli suurus 0-4
 
 
     // Vaikeväärtused
     blurSlider->setValue(0);
     brightnessSlider->setValue(0);
-    contrastSlider->setValue(100);  // 100 on normaalne kontrast
+    contrastSlider->setValue(100);    // 100 on normaalne kontrast
     saturationSlider->setValue(100);  // 100 on normaalne saturation
     edgeDetectionSlider->setValue(0);
 
@@ -90,11 +91,10 @@ void MainWindow::setupUI() { //loob selle liidese UI
     blurLabel = new QLabel("Blur:", this);
     edgeLabel = new QLabel("Edge Detection:", this);
 
-    // Loo reset button
+    // Loo ja nimeta nupud
     resetButton = new QPushButton("Reset All", this);
 
     savePath = new QLineEdit(this);
-
     saveButton = new QPushButton("Save", this);
 
     // Lisa widgetid controls layoutile
