@@ -12,6 +12,7 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QLineEdit>
+#include <QCheckBox>
 
 
 
@@ -32,6 +33,10 @@ void MainWindow::setupUI() { //loob selle liidese UI
     auto *centralWidget = new QWidget(this);
     auto *mainLayout = new QHBoxLayout(centralWidget);
 
+
+    // CHECKBOX
+    openInNewWindowCheckBox = new QCheckBox("Open in New Window", this);
+    controlsLayout->addWidget(openInNewWindowCheckBox);
 
 
     //TRACKBARID
@@ -128,9 +133,16 @@ void MainWindow::setupUI() { //loob selle liidese UI
     //controlsLayout->addStretch(); // Tekitab tühja ruumi listi alla
 
 
-    // Lisa widgetid main layoutile
-    mainLayout->addWidget(controlsWidget);
+    // Add QLabel for displaying the image
+    imageLabel = new QLabel(this);
+    imageLabel->setFixedSize(600, 600); // Set a fixed size for the image display
+    imageLabel->setAlignment(Qt::AlignCenter); // Center the image in the label
+    imageLabel->setStyleSheet("border: 1px solid black;"); // Optional: Add a border for
 
+
+    // Lisa widgetid main layoutile
+    mainLayout->addWidget(controlsWidget);  //trackbarid ja list
+    mainLayout->addWidget(imageLabel);      // näita pilti
     setCentralWidget(centralWidget);
 
     // Ühenda trackbarid ja nupp vastavate funktsioonidega.
@@ -196,6 +208,14 @@ void MainWindow::showImage(const QString &filePath) {
     }
     processedImage = originalImage.clone();
     updateImage();
+
+    // Kui "uuel aknal" checkbox vajutatud
+    if (openInNewWindowCheckBox->isChecked()) {
+        cv::imshow("Image Preview", processedImage);
+        cv::waitKey(1);
+    } else {
+        updateImage();
+    }
 }
 
 // Uuendab pildi eelvaadet
@@ -225,6 +245,12 @@ void MainWindow::updateImage() {
     if (edgeDetectionSlider->value() != 0) {
         result = EdgeDetect(result, edgeDetectionSlider->value());
     }
+
+    // Convert the processed image to QPixmap and display it
+    QImage qimg(result.data, result.cols, result.rows, result.step, QImage::Format_BGR888);
+    QPixmap pixmap = QPixmap::fromImage(qimg.scaled(imageLabel->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    imageLabel->setPixmap(pixmap);
+
 
     cv::imshow("Image Preview", result);
     processedImage = result;

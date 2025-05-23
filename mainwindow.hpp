@@ -7,15 +7,13 @@
 #include <QDropEvent>
 #include <QMessageBox>
 #include <opencv2/core/mat.hpp>
+#include <QVBoxLayout>
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
-
-
-
+    explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
 protected:
@@ -65,7 +63,9 @@ private:
     QLabel *saturationLabel;
     QLabel *edgeLabel;
 
-
+    QCheckBox *openInNewWindowCheckBox; // Checkbox uue akna avamiseks
+    QVBoxLayout *controlsLayout;
+    QLabel *imageLabel;                 // Pildi akna nimi
 
 private slots:
     void onItemDoubleClicked(QListWidgetItem *item);     // teeb pildi pathi "clickitavaks" et uuesti avada
