@@ -196,7 +196,7 @@ void MainWindow::dropEvent(QDropEvent *event) {
 
         // Kui fail ei ole pilt, siis näita veateadet
         if (img.empty()) {
-            QMessageBox::warning(this, "Import Error", "Fail " + filePath + "See ei ole toetatud failitüüp.");
+            QMessageBox::warning(this, "Import Error", "Fail " + filePath + "Unsupported file type");
         } else {
 
             // OpenCV pilt, muuda see QImage-ks
@@ -309,8 +309,25 @@ void MainWindow::saveImage() {
         QMessageBox::warning(this, "Save Error", "No image to save");
         return;
     }
-    cv::imwrite(savePath->text().toStdString(), processedImage);
-    QMessageBox::information(this, "Save Success", "Image saved successfully");
+
+    QString fileName = savePath->text().trimmed();
+    if (fileName.isEmpty()) {
+        QMessageBox::warning(this, "Save Error", "Enter a file name.");
+        return;
+    }
+    fileName += ".png"; // Salvestab pildi png failina
+
+    // Path kuhu salvestada (projekti kaust)
+    QString projectFolder = QCoreApplication::applicationDirPath();
+    QString fullPath = projectFolder + "/" + fileName;
+
+    // salvesta pilt
+    if (cv::imwrite(fullPath.toStdString(), processedImage)) {
+        QMessageBox::information(this, "Save Success", "Image saved");
+    }
+    else {
+        QMessageBox::critical(this, "Save Error", "Failed to save the image.");
+    }
 }
 
 
