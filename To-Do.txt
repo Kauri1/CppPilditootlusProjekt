@@ -1,11 +1,9 @@
 pilditöötluse valikuid:
-erinevad blurid (bilateral; see mis ääred teravaks teeb; pixellate)
-teha nii et saab võrrelda algsega ilma et resetiks (uuele aknale algne ja menüüsse nupp, mis kuvab algse uuele aknale)
-"ava pilt kohe" teha Dropboxi menüüs linnukesega valikuks
+white balance slider
 vb menüü, valid menüüst asja ja siis sellele tekib trackbar ehk 1 trackbar korraga (kui lõpuks valikuid palju)
 kui pilti vahetada, siis eelmise pildi väärtused jäävad (võibolla tahame jätta)
 
 muu:
 pildid jäid ekraani äärtesse kuidagi kinni (kui Dropboxist avada pilt ja pildi akent liigutada)
 saada exe fail tööle ka nii et ei pea läbi clioni avama
-nupp et salvestada/alla laadida muutustega pilt
+nupp et salvestada/alla laadida muutustega pilt (pooleli)

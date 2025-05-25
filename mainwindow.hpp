@@ -48,7 +48,11 @@ private:
 
     void saveImage();
 
+    void onShowOriginalImageClicked();
+
+    // checkboxide lipud
     bool isPreviewWindowOpen = false; //hoiab endas akna olekut (on olemas/ei ole)
+    bool isShowingOriginal = false;
 
     QSlider *blurSlider;
     QSlider *brightnessSlider;
@@ -59,6 +63,7 @@ private:
     QWidget *controlsWidget;
     QLineEdit *savePath;
     QPushButton *saveButton;
+    QPushButton *showOriginalImgButton;
 
     QLabel *blurLabel;
     QLabel *brightnessLabel;
@@ -66,12 +71,14 @@ private:
     QLabel *saturationLabel;
     QLabel *edgeLabel;
 
+    //QCheckBox *showOriginalImgCheckbox;       // Checkbox ogiginaalse pildi nägemiseks
     QCheckBox *openInNewWindowCheckBox; // Checkbox uue akna avamiseks
     QVBoxLayout *controlsLayout;
     QLabel *imageLabel;                 // Pildi akna nimi
 
 private slots:
-    void onItemDoubleClicked(QListWidgetItem *item);     // teeb pildi pathi "clickitavaks" et uuesti avada
+    void onItemDoubleClicked(QListWidgetItem *item);     // teeb pildi pathi listis "clickitavaks" et uuesti avada
+    //void onShowOriginalImageToggled(bool checked);       // Slot for toggling the image
 };
 
 

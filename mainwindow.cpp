@@ -83,16 +83,26 @@ void MainWindow::setupUI() { //loob selle liidese UI
     resetButton = new QPushButton("Reset All", this);
     savePath = new QLineEdit(this);
     saveButton = new QPushButton("Save", this);
+    showOriginalImgButton = new QPushButton("Show Original Image", this);
 
     // Nuppude laiused
     resetButton->setFixedWidth(fixedWidth);
     saveButton->setFixedWidth(fixedWidth);
     savePath->setFixedWidth(fixedWidth);
-
+    showOriginalImgButton->setFixedWidth(125);
 
     // CHECKBOX
+
+    // checkboxide kõrvuti paigutamine
+    auto *checkboxLayout = new QHBoxLayout();
+    controlsLayout->addLayout(checkboxLayout);
+
     openInNewWindowCheckBox = new QCheckBox("Open in New Window", this);
-    controlsLayout->addWidget(openInNewWindowCheckBox);
+    checkboxLayout->addWidget(openInNewWindowCheckBox);
+
+    //showOriginalImgCheckbox = new QCheckBox("Show Original Image", this);
+    checkboxLayout->addWidget(showOriginalImgButton);
+
 
 
     // PILTIDE LIST
@@ -157,6 +167,8 @@ void MainWindow::setupUI() { //loob selle liidese UI
     connect(saveButton, &QPushButton::clicked, this, &MainWindow::saveImage);
     connect(savePath, &QLineEdit::returnPressed, this, &MainWindow::saveImage);
     connect(openInNewWindowCheckBox, &QCheckBox::toggled, this, &MainWindow::onCheckboxToggled);
+    //connect(showOriginalImgCheckbox, &QCheckBox::toggled, this, &MainWindow::onShowOriginalImageToggled);
+    connect(showOriginalImgButton, &QPushButton::clicked, this, &MainWindow::onShowOriginalImageClicked);
 
     //qDebug() << "Setup UI completed"; //debug
 }
@@ -211,19 +223,9 @@ void MainWindow::showImage(const QString &filePath) {
     }
     processedImage = originalImage.clone();
     updateImage();
-
-    /*
-    // Kui "uuel aknal" checkbox vajutatud
-    if (openInNewWindowCheckBox->isChecked()) {
-        cv::imshow("Image Preview", processedImage);
-        cv::waitKey(1);
-    } else {
-        updateImage();
-    }
-    */
 }
 
-// Uuendab pildi eelvaadet
+// Uuendab pilti aknal
 void MainWindow::updateImage() {
     if (processedImage.empty()) return;
 
@@ -251,19 +253,17 @@ void MainWindow::updateImage() {
         result = EdgeDetect(result, edgeDetectionSlider->value());
     }
 
+    // Kontrolli kas checkbox on vajutatud
+    if (openInNewWindowCheckBox->isChecked()) {
+        cv::imshow("Image Preview", result);
+        cv::waitKey(1);
+    }
 
-    // Muuda QPixmap pildiks ja kuva
+    // Muuda QPixmap pildiks ja kuva main aknas
     QImage qimg(result.data, result.cols, result.rows, result.step, QImage::Format_BGR888);
     QPixmap pixmap = QPixmap::fromImage(qimg.scaled(imageLabel->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
     imageLabel->setPixmap(pixmap);
 
-
-    // Kontrolli kas checkbox on vajutatud
-    if (openInNewWindowCheckBox->isChecked()) {
-        cv::imshow("Image Preview", result);
-        isPreviewWindowOpen = true;
-        cv::waitKey(1);
-    }
 
     processedImage = result;
     cv::waitKey(1);
@@ -337,9 +337,42 @@ void MainWindow::onCheckboxToggled(bool checked) {
         }
     } else {
         // Kui pole vajutatud hävitab akna
-        if (isPreviewWindowOpen) {
+        if (isPreviewWindowOpen == true) {
             cv::destroyWindow("Image Preview");
             isPreviewWindowOpen = false;
         }
+    }
+}
+
+/*
+void MainWindow::onShowOriginalImageToggled(bool checked) {
+    if (checked) {
+        // kui vajutatud, siis näitab töödeldud pildi asemel originaalset (ainult main aknal)
+        if (!originalImage.empty()) {
+            QImage qimg(originalImage.data, originalImage.cols, originalImage.rows, originalImage.step, QImage::Format_BGR888);
+            QPixmap pixmap = QPixmap::fromImage(qimg.scaled(imageLabel->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+            imageLabel->setPixmap(pixmap);
+            isShowingOriginal = true;
+        }
+    }
+    else {
+        // uuendab akent, et checkboxi vajutades muudatus ise juhtuks
+        updateImage();
+        isShowingOriginal = false;
+    }
+    // teine aken alati näitab trackbaride muudatusi
+    if (openInNewWindowCheckBox->isChecked() && !processedImage.empty()) {
+        cv::imshow("Image Preview", processedImage);
+        cv::waitKey(1);
+    }
+}
+*/
+
+void MainWindow::onShowOriginalImageClicked() {
+    // Show the original image in the main window
+    if (!originalImage.empty()) {
+        QImage qimg(originalImage.data, originalImage.cols, originalImage.rows, originalImage.step, QImage::Format_BGR888);
+        QPixmap pixmap = QPixmap::fromImage(qimg.scaled(imageLabel->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+        imageLabel->setPixmap(pixmap);
     }
 }
