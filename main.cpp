@@ -5,7 +5,7 @@ int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
 
     MainWindow w;
-    w.setWindowTitle("Drag & Drop Dropbox");
+    w.setWindowTitle("Pilditöötluse programm");
     w.show();
 
     return app.exec();

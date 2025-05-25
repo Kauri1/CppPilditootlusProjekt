@@ -89,18 +89,18 @@ void MainWindow::setupUI() { //loob selle liidese UI
     resetButton->setFixedWidth(fixedWidth);
     saveButton->setFixedWidth(fixedWidth);
     savePath->setFixedWidth(fixedWidth);
-    showOriginalImgButton->setFixedWidth(125);
+    showOriginalImgButton->setFixedWidth(140);
 
-    // CHECKBOX
+    // CHECKBOX JA ORIGINAL IMAGE
 
-    // checkboxide kõrvuti paigutamine
+    // checkboxi ja nupu kõrvuti paigutamine
     auto *checkboxLayout = new QHBoxLayout();
-    controlsLayout->addLayout(checkboxLayout);
-
-    openInNewWindowCheckBox = new QCheckBox("Open in New Window", this);
+    checkboxLayout->setAlignment(Qt::AlignLeft); // et nupp ei oleks maximized modes keset akent
+    openInNewWindowCheckBox = new QCheckBox("Open in new window", this);
     checkboxLayout->addWidget(openInNewWindowCheckBox);
+    checkboxLayout->addSpacing(20); // vahe checkboxi ja nupu
 
-    //showOriginalImgCheckbox = new QCheckBox("Show Original Image", this);
+    //Nupu osa
     checkboxLayout->addWidget(showOriginalImgButton);
 
 
@@ -120,6 +120,7 @@ void MainWindow::setupUI() { //loob selle liidese UI
 
 
     // Lisa widgetid controls layoutile
+    controlsLayout->addLayout(checkboxLayout);
     controlsLayout->addWidget(brightnessLabel);
     controlsLayout->addWidget(brightnessSlider);
     controlsLayout->addWidget(contrastLabel);
