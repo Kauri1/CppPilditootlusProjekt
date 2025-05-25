@@ -78,7 +78,6 @@ private:
 
 private slots:
     void onItemDoubleClicked(QListWidgetItem *item);     // teeb pildi pathi listis "clickitavaks" et uuesti avada
-    //void onShowOriginalImageToggled(bool checked);       // Slot for toggling the image
 };
 
 

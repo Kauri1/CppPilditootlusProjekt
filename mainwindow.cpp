@@ -331,8 +331,6 @@ void MainWindow::saveImage() {
 }
 
 
-
-
 // teeb pildi pathi "clickitavaks" et uuesti avada
 void MainWindow::onItemDoubleClicked(QListWidgetItem *item) {
     QVariant data = item->data(Qt::UserRole);
@@ -362,32 +360,9 @@ void MainWindow::onCheckboxToggled(bool checked) {
     }
 }
 
-/*
-void MainWindow::onShowOriginalImageToggled(bool checked) {
-    if (checked) {
-        // kui vajutatud, siis näitab töödeldud pildi asemel originaalset (ainult main aknal)
-        if (!originalImage.empty()) {
-            QImage qimg(originalImage.data, originalImage.cols, originalImage.rows, originalImage.step, QImage::Format_BGR888);
-            QPixmap pixmap = QPixmap::fromImage(qimg.scaled(imageLabel->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
-            imageLabel->setPixmap(pixmap);
-            isShowingOriginal = true;
-        }
-    }
-    else {
-        // uuendab akent, et checkboxi vajutades muudatus ise juhtuks
-        updateImage();
-        isShowingOriginal = false;
-    }
-    // teine aken alati näitab trackbaride muudatusi
-    if (openInNewWindowCheckBox->isChecked() && !processedImage.empty()) {
-        cv::imshow("Image Preview", processedImage);
-        cv::waitKey(1);
-    }
-}
-*/
 
 void MainWindow::onShowOriginalImageClicked() {
-    // Show the original image in the main window
+    // kui nupp show original vajutatud siis näitab originaalset pilti
     if (!originalImage.empty()) {
         QImage qimg(originalImage.data, originalImage.cols, originalImage.rows, originalImage.step, QImage::Format_BGR888);
         QPixmap pixmap = QPixmap::fromImage(qimg.scaled(imageLabel->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
